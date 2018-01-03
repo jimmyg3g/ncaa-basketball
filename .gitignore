@@ -2,3 +2,9 @@
 .Rhistory
 .RData
 .Ruserdata
+mappings/
+.Rproj.user/
+master
+.7z
+ncaa-basketball/
+*.master/

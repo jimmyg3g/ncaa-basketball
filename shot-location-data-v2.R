@@ -17,7 +17,6 @@ x <- map(d, function(x) {
     ) %>% as_tibble() 
 }) %>% plyr::ldply() %>% tbl_df()
 
-
 x %>%  {
     bind_rows(
         filter(., class == 'made') %>% 
@@ -30,3 +29,4 @@ x %>%  {
     mutate_at(vars(border_color, background_color, left, top), funs(str_replace_all(., '.*:', ''))) %>% 
     mutate_at(vars(left, top), funs(str_replace_all(., '%', '') %>% as.numeric())) %>% 
     filter(grepl('langford', tolower(text)))
+
