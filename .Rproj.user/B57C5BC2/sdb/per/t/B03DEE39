@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "\n# play with my data -------------------------------------------------------\n\nkp$region <- gsub(\"[0-9]\", \"\", kp$seed_region)\nkp$seed <- gsub(\"[A-Z]\", \"\", kp$seed_region)\nkp <- kp %>% select(region, seed, seed_region, team_name)\n\nmy_data <- left_join(team_mapping, schedule_table, by = 'team_id')\nmy_data <- my_data %>% select(-team_link) %>% select(team_id, team_name, date, opponent, win_loss, ot, \n                                                     team_score, opp_score, margin_of_victory)\n\nmy_data <- my_data[which(!is.na(my_data$margin_of_victory)),]\n\n\n# make bracquet.csv file --------------------------------------------------\n\nmy_data %>% group_by(team_name, team_id) %>% summarise(max_loss = min(margin_of_victory), max_win = max(margin_of_victory), median_win = median(margin_of_victory)) %>% \n  arrange(-max_loss) %>% left_join(kp, ., by = 'team_name') %>% write.csv('bracquet.csv', row.names = FALSE)\nmy_data %>% group_by(team_name) %>% summarise(median_victory = median(margin_of_victory)) %>% arrange(-median_victory) %>% View()\nmy_data[!is.na(my_data$margin_of_victory)]\n\nschedule_table %>% group_by(team_id) %>% summarise(min(margin_of_victory))\n\nkp <- kenpom_predictions %>% select(Seed_Region, Team)\nnames(kp) <- c('seed_region', 'team_name')\n\nleft_join(kp, my_data) %>% distinct(team_name)%>% select(team_name, team_id, seed_region) %>% filter(is.na(team_id))\n\nkp$team_name <- sub('Miami FL', 'Miami (FL)', kp$team_name) %>% sub('Connecticut', 'UConn',. ) %>% sub('S. F. Austin', 'SFA', .) %>% \n  sub('USC', 'Southern California', .) %>% sub('UNC Wilmington', 'UNCW', .) %>% sub('Northern Iowa', 'UNI', .)\n\n\n\n\n\n\n",
+    "created" : 1489606225664.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3130151534",
+    "id" : "B03DEE39",
+    "lastKnownWriteTime" : 1484744368,
+    "last_content_update" : 1484744368,
+    "path" : "~/R/ncaa-basketball/play-with-data.R",
+    "project_path" : "play-with-data.R",
+    "properties" : {
+    },
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

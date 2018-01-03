@@ -1,0 +1,7 @@
+{
+    "installOptions" : {
+        "installDependencies" : true,
+        "installFromRepository" : true,
+        "libraryPath" : "F:/C/Users/jglenn.CNHIDOM/Documents/R/win-library/3.3"
+    }
+}

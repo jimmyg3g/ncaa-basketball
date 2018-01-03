@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "# https://gist.github.com/edkupfer/6354317\n# NCAA courts are 50ft sideline-to-sideline\n# and 94ft end to end. This will plot a court\n# with the sidelines on the y-axis, centered \n# on the halfcourt circle. Measurement units\n# are in feet. The basket at the bottom is\n# centered on {x = 0, y = -41.75} and at the\n# top  on {x = 0, y = 41.75}\n\nlibrary(lattice)\ngetHalfCourt <- function() { \n    xyplot(NA~NA,ylab='',xlab='',aspect='iso',xlim=c(-25,25),ylim=c(0,47),\n           ### remove outside box and ticks, there must be a better way:\n           par.settings = list(axis.line = list(col = \"transparent\")), par.box = c(col = \"transparent\"),\n           scales=list(draw=F),\n           panel=function(...){\n               #outside box:\n               panel.lines(x=c(-25,-25,25,25,-25),y=c(0,47,47,0,0))\n               #halfcourt line\n               panel.lines(x=c(-25,25),y=c(0,0))\n               #solid FT semicircle above FT line:\n               panel.lines(x=c(-6000:(-1)/1000,1:6000/1000),y=c(-28+sqrt(6^2-c(-6000:(-1)/1000,1:6000/1000)^2)))\n               panel.lines(x=c(-6000:(-1)/1000,1:6000/1000),y=c(28-sqrt(6^2-c(-6000:(-1)/1000,1:6000/1000)^2)))\n               #paint:\n               panel.lines(x=c(-6,-6,6,6,-6),y=c(-47,-28,-28,-47,-47))\n               panel.lines(x=c(-6,-6,6,6,-6),y=c(47,28,28,47,47))\n               # large halfcourt semicircle:\n               panel.lines(x=c(-6000:(-1)/1000,1:6000/1000),y=c(0-sqrt(6^2-c(-6000:(-1)/1000,1:6000/1000)^2)))\n               panel.lines(x=c(-6000:(-1)/1000,1:6000/1000),y=c(0+sqrt(6^2-c(-6000:(-1)/1000,1:6000/1000)^2)))\n               # small halfcourt semicircle:\n               panel.lines(x=c(-2000:(-1)/1000,1:2000/1000),y=c(0-sqrt(2^2-c(-2000:(-1)/1000,1:2000/1000)^2)))\n               panel.lines(x=c(-2000:(-1)/1000,1:2000/1000),y=c(0+sqrt(2^2-c(-2000:(-1)/1000,1:2000/1000)^2)))\n               # rim:\n               panel.lines(x=c(-750:(-1)/1000,1:750/1000,750:1/1000,-1:-750/1000),y=c(c(1.25+sqrt(0.75^2-c(-750:(-1)/1000,1:750/1000)^2)),c(1.25-sqrt(0.75^2-c(750:1/1000,-1:-750/1000)^2)))-43)\n               panel.lines(x=c(-750:(-1)/1000,1:750/1000,750:1/1000,-1:-750/1000),y=c(c(1.25-sqrt(0.75^2-c(-750:(-1)/1000,1:750/1000)^2)),c(1.25+sqrt(0.75^2-c(750:1/1000,-1:-750/1000)^2)))+40.5)\n               panel.rect(-5/24,-43,5/24,54/12-47)\n               panel.rect(-5/24,43,5/24,47-54/12)\n               #backboard:\n               panel.lines(x=c(-3,3),y=c(-43,-43))\n               panel.lines(x=c(-3,3),y=c(43,43))\n               #three-point line:\n               panel.lines(x=c(-20.75,-20.75,-20750:(-1)/1000,1:20750/1000,20.75,20.75),y=c(-47,-41.75,-41.75+sqrt(20.75^2-c(-20750:(-1)/1000,1:20750/1000)^2),-41.75,-47))\n               panel.lines(x=c(-20.75,-20.75,-20750:(-1)/1000,1:20750/1000,20.75,20.75),y=-c(-47,-41.75,-41.75+sqrt(20.75^2-c(-20750:(-1)/1000,1:20750/1000)^2),-41.75,-47))\n           })\n}\n\n",
+    "created" : 1486559627361.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2988904109",
+    "id" : "B54A1E13",
+    "lastKnownWriteTime" : 1486561585,
+    "last_content_update" : 1486561585771,
+    "path" : "~/R/ncaa-basketball/ncaa-half-court.R",
+    "project_path" : "ncaa-half-court.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 11,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

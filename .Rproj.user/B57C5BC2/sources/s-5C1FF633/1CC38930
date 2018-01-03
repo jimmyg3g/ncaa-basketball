@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1512080648595.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "1CC38930",
+    "lastKnownWriteTime" : 1512137106,
+    "last_content_update" : 1512137106025,
+    "path" : "~/R/ncaa-basketball/shot-location-data-v2.R",
+    "project_path" : "shot-location-data-v2.R",
+    "properties" : {
+        "cursorPosition" : "20,8",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 11,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

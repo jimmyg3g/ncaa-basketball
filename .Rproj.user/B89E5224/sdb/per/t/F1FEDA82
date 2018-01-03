@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "library(rvest)\n# library(magrittr)\nlibrary(tidyverse)\nlibrary(xml2)\n\n# team_mapping\nespnTeamMapping <- function() {\n    doc <- read_html('http://www.espn.com/mens-college-basketball/teams')\n    team_nodes <- html_nodes(doc, '.medium-logos li')\n    espn_team_mapping <- lapply(team_nodes, function(x) {\n        team_id <- html_node(x, 'span a') %>% xml_attr('href') %>% gsub('.*=', '', .)\n        team_name <- html_nodes(x, 'h5 a') %>% xml_text()\n        team_nickname <- html_nodes(x, 'h5 a') %>% xml_attr('href') %>% gsub('.*/', '', .)\n        c(team_id=team_id, team_name=team_name, team_nickname=team_nickname)\n    })\n    espn_team_mapping <- plyr::ldply(espn_team_mapping) %>% tbl_df()\n}\n\nespn_team_mapping <- espnTeamMapping()\n\n\nhtml_structure(doc)\n\n\n# schedule_mapping\nespnScheduleMapping <- function(team_id, team_nickname) {\n    doc <- read_html(paste('http://www.espn.com/mens-college-basketball/team/schedule/_/id', team_id, team_nickname, sep='/'))\n    team_schedule <- html_table(doc, header=F)[[1]] %>% tbl_df()\n    names(team_schedule) <- team_schedule[2, ] %>% tolower() %>% gsub('/', '_', .)\n    team_schedule <- team_schedule[3:nrow(team_schedule), ]\n    cbind(team_id=team_id, team_schedule) %>% tbl_df()\n}\n\n\n# ESPN PBP\n\nscore_nodes <- html_nodes(doc, 'li.score')\nlapply(score_nodes, function(x) { \n    xml_text(x)\n    html_node(x, 'a') %>% xml_attr('href')\n\n})\n\ngame_nodes <- html_nodes(doc, '[class=game-schedule]')\nx <- game_nodes[1]\n\ngame_status <- html_nodes(x, '[class=game-status]') %>% html_text()\n\n\nhtml_children(game_nodes[[1]])[[3]] %>% html_children()\nhtml_structure(game_nodes[[1]])\n\nespn_schedule_mapping <- espnScheduleMapping(espn_team_mapping$team_id[1], espn_team_mapping$team_nickname[1])\n\n\nhtml_nodes(doc, 'tr td') %>% xml_children() %>% xml_attr('class')\nhtml_nodes(doc, 'tr td') %>% xml_children() %>% xml_attr('href')\nhtml_nodes(doc, 'li a') %>% html_structure()\n\nhtml_nodes(doc, 'tr td ul') %>% xml_children()\nhtml_nodes(doc, 'table tr td')\n\nhtml_node(doc, 'tr.oddrow') %>% xml_structure()\nhtml_node(doc, 'tr.oddrow') %>% xml_children() %>% xml_attr('td')\nhtml_node(doc, 'tr.oddrow') %>% xml_contents()\nhtml_node(doc, 'tr.oddrow') %>% html_structure()\nhtml_node(doc, 'tr.oddrow') %>% html_structure()\n\n\n# Do this for tr.oddrow & tr.evenrow\ngame_nodes <- html_nodes(doc, 'tr.oddrow')\nx <- game_nodes[[1]]\ngame_date <- xml_children(x)[1] %>% xml_text()\ngame_status <- html_node(x, '[class=game-status]') %>% html_text()\ngame_score <- html_node(x, '[class=score]') %>% html_text()\ngame_id <- html_node(x, '[class=score]') %>% html_children() %>% html_attr('href') %>% \n    gsub('.*/', '', .)\n\n# or start here \nhtml_node(doc, '[class=tablehead]') %>% html_children()\nhtml_node(doc, '[class=tablehead]') %>% html_node('[class=\"oddrow|evenrow\"]')\n\n\n\n# ESPN Shots \ndoc <- read_html('http://www.espn.com/mens-college-basketball/playbyplay?gameId=400910689')\n\na <- html_nodes(doc, '[class=\"shots away-team\"]') %>% html_children()\na <- html_nodes(doc, '[class~=\"shots\"]') %>% html_children()\nx <- a[[1]]\n\nhtml_attrs(a, 'class')\n",
+    "created" : 1484872933111.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3453389227",
+    "id" : "F1FEDA82",
+    "lastKnownWriteTime" : 1485622715,
+    "last_content_update" : 1485622715795,
+    "path" : "~/R/ncaa-basketball/espn.R",
+    "project_path" : "espn.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

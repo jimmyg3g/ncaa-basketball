@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "library(rvest)\nlibrary(magrittr)\nlibrary(dplyr)\nlibrary(tidyr)\nlibrary(xml2)\n\n\n\ndoc <- read_html('http://www.cbssports.com/collegebasketball/gametracker/live/NCAAB_20170117_UK@MISSST')\n\nhtml_nodes(doc, 'CBSi.app.liveChart')\nxml_children(doc) %>% xml_attrs()\n\nhtml_nodes(doc, css = '.liveChart') %>% html_children()\n\nhtml_nodes(doc, css = '.liveChart') %>% html_children() %>% html_nodes('.javascript')\n\nhtml_nodes(doc, css = '.liveChart <script type>=text/javasript') \n\n\n\n\nhtml_nodes(doc, xml = '//*[@id=\"gridContainer\"]/div[2]/div[1]/div[2]/script[2]')\n\n\n# This works!!! \nhtml_nodes(doc, '#gridContainer > div:nth-child(2) > div.col-8.col-no-bottom > div.liveChart > script:nth-child(5)')\n\n",
+    "created" : 1484774175135.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3270601648",
+    "id" : "A1225CAD",
+    "lastKnownWriteTime" : 1484776867,
+    "last_content_update" : 1484776867028,
+    "path" : "~/R/ncaa-basketball/shot-location-data.R",
+    "project_path" : "shot-location-data.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

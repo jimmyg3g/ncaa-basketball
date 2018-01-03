@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "\nlibrary(rvest)\nlibrary(magrittr)\nlibrary(dplyr)\nlibrary(tidyr)\nlibrary(xml2)\n\nacademic_year <- '2017'\nyear_index <- '12480'\nbase_url <- 'http://stats.ncaa.org'\n\nteam_mappings <- create_team_mapping(academic_year, year_index)\nwrite.csv(team_mappings, file = './mappings/team_mappings.csv')\n\n# Grabbing UNC's schedule mapping...\ni <- team_mappings %>% filter(team_name=='North Carolina') %>% select(index) %>% as.numeric()\n# schedule_mapping <- create_schedule_mapping(team_mapping$team_id[i], year_index)\n\n\nschedule_mappings <- list()\ni <- 1\nfor(x in team_mappings$team_id[142:351]) { \n    cat(i, 'of', length(team_mappings$team_id), '\\n')\n    schedule_mappings[[x]] <- create_schedule_mapping(x, year_index)\n    i <- i + 1 \n}\n\n\nplyr::ldply(schedule_mappings) %>% write.csv(., file = './mappings/schedule_mappings.csv')\n# TODO: add 'Processing team 688 (93 of 351)' feedback in the console.\nschedule_mappings <- plyr::ldply(schedule_mappings) %>% tbl_df()\n\nunc_schedule <- schedule_mappings[[i]] %>% tbl_df()\n\n\nplayer_mappings <- list()\ni <- 1\nfor(x in team_mappings$team_id) { \n    cat(i, 'of', length(team_mappings$team_id), '\\n')\n    player_mappings[[x]] <- create_player_mapping(x, year_index)\n    i <- i + 1\n}\n\nplyr::ldply(player_mappings) %>% write.csv(., file = './mappings/player_mappings.csv')\nplayer_mappings <- plyr::ldply(player_mappings) %>% tbl_df()\n\n\npbp <- \n\n\n",
+    "created" : 1489606175298.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "586069397",
+    "id" : "1DC4DEEC",
+    "lastKnownWriteTime" : 1489573929,
+    "last_content_update" : 1489573929,
+    "path" : "~/R/ncaa-basketball/get-mappings.R",
+    "project_path" : "get-mappings.R",
+    "properties" : {
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

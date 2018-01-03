@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(rvest)\nlibrary(magrittr)\nlibrary(dplyr)\nlibrary(tidyr)\nlibrary(xml2)\n\n\n# get play by play\n# TO DO: turn this garbage into a function that uses the length/number of tables to loop through OT play\n# http://stats.ncaa.org/game/play_by_play/4070331 is a double OT game\n\n# doc <- read_html('http://stats.ncaa.org/game/play_by_play/4070331')\n\ndoc <- read_html(paste0('http://stats.ncaa.org/game/play_by_play/', unc_schedule$game_id[i]))\n\n\npbp <- get_pbp(unc_schedule$game_id[i])\n    \n\n\npbp <- html_nodes(doc, '.mytable')[[5]] %>% html_table(header=TRUE) %>% tbl_df()\n\nhtml_table(doc)[[1]]\n\n\ndoc <- read_html(paste0('http://stats.ncaa.org/game/play_by_play/', unc_schedule$game_id[i]))\nhtml_nodes(doc, '.mytable')[[1]] %>% html_table() # score by half\n\npbp1 <- html_nodes(doc, '.mytable')[[2]] %>% html_table(header=T) # play by play 1st half\nnames(pbp1) <- pbp1[1,]\npbp1 <- pbp1[2:nrow(pbp1),] %>% tbl_df()\n\npbp2 <- html_nodes(doc, '.mytable')[[3]] %>% html_table() # play by play 2nd half\nnames(pbp2) <- pbp2[1,]\npbp2 <- pbp2[2:nrow(pbp2),] %>% tbl_df()\n\nhtml_nodes(doc, '.mytable') %>% html_table()\n\nplay_by_play <- html_nodes(doc, '.mytbl+ .mytable td')\n\npbp <- xml_text(play_by_play)\nmy_header <- pbp[1:4]\npbp[nchar(pbp) == 0] <- \" \"\n\nmy_list <- list()\nfor (i in seq(5, length(pbp)-4, 4)) {\n  print(i) \n  my_list[[length(my_list)+1]] <- pbp[i:(i+3)]\n}\npbp <- plyr::ldply(my_list)\nnames(pbp) <- my_header\n\n\nleft_join(schedule_table %>% group_by(team_id) %>% summarise(max(team_score)), team_mapping) %>% \n  left_join(kp, .) %>% filter(seed == '1')\n\n",
+    "created" : 1489606176267.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2238166495",
+    "id" : "58FBDC31",
+    "lastKnownWriteTime" : 1484926826,
+    "last_content_update" : 1484926826,
+    "path" : "~/R/ncaa-basketball/mapping.R",
+    "project_path" : "mapping.R",
+    "properties" : {
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
